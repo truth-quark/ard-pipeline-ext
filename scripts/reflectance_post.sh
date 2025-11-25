@@ -2,6 +2,11 @@
 # Extract reflectance products & convert to images
 # TODO: assumes single H5 for now
 
+# Runtime environment checks
+if ! command -v gdal_translate &> /dev/null; then
+    echo "ERROR: gdal_translate not detected. Is a conda env activated?"
+    exit -2
+fi
 
 # TODO: update to find in a pipeline batch dir
 h5_path=$(find . -iname "*.wagl.h5")
