@@ -22,13 +22,12 @@ fi
 
 echo Granule ID: "$granule"
 
-# Find paths to all reflectance products
-# Extracts H5 tree to current dir, another <granule-id> dir
-egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path | while read -r line; do
+# Find H5 group paths to all reflectance products
+# Extracts H5 data tree to current dir, rooted in another <granule-id> dir
+egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path | while read -r band_group; do
 
-  if [ ! -e ./$line.tif ]; then
-    wagl_convert --filename $h5_path  --pathname $line  --outdir .
-    echo "Extracted $line"
+  if [ ! -e ./$band_group.tif ]; then
+    wagl_convert --filename $h5_path  --pathname $band_group  --outdir . && echo "Extracted $band_group"
   fi
 done
 
