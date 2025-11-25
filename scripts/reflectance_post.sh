@@ -2,6 +2,14 @@
 # Extract reflectance products & convert to images
 # TODO: assumes single H5 for now
 
+# Missing features:
+# TODO: check 0-10,000 range assumption for reflectance products
+# TODO: add Lambertian, NBAR/T naming to output files
+# TODO: extract full size images from reflectance products?
+# TODO: correct extracted path extensions?  e.g.  BAND-1.tiff to BAND-1.png
+#       leaving the `tif` original prefix hints at the PNG source
+
+
 # Runtime environment checks
 if ! command -v gdal_translate &> /dev/null; then
     echo "ERROR: gdal_translate not detected. Is a conda env activated?"
