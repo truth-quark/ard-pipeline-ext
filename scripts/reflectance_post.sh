@@ -52,8 +52,7 @@ find ./$granule -iname "*.tif" | while read -r tiff_path; do
                  -outsize $resize_percent% $resize_percent% \
                  -scale 0 10000 15 255 \
                  -a_nodata 0 \
-                 $tiff_path  $resized_path  2>/dev/null
-  echo "Converted $resized_path"
+                 $tiff_path  $resized_path && echo "Converted $resized_path"
 
   # TODO: extract full size image?
   # full_path="$tiff_path".png
