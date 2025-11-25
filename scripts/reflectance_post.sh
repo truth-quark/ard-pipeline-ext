@@ -34,24 +34,29 @@ done
 
 echo "Converting reflectance product TIFFs to PNGs"
 
-resize=25
+resize_percent=25
 
-find ./$granule -iname "*.tif" | while read -r line; do
+find ./$granule -iname "*.tif" | while read -r tiff_path; do
   # gdal_translate -q -ot Byte -scale 0 10000 0 255  $line $line.png
 
   # TODO: correct the extensions?
 
   # Scale output to 15 255 to allow NODATA as 0/black & avoid dark images
 
-  # resize preview image
+  # Extract a resized preview image
   # convert to 15 255 to allow NODATA as 0/black & avoid dark images
-  resized="$line.$resize"_percent.png
-  # echo $resized
-  gdal_translate -q -ot Byte -outsize $resize% $resize% -scale 0 10000 15 255  $line  $resized  2>/dev/null
-  echo "Converted $resized"
+  resized_path="$tiff_path.$resize_percent"_percent.png
+
+  gdal_translate -q \
+                 -ot Byte \
+                 -outsize $resize_percent% $resize_percent% \
+                 -scale 0 10000 15 255 \
+                 $tiff_path  $resized_path  2>/dev/null
+  echo "Converted $resized_path"
 
   # TODO: extract full size image?
-  # gdal_translate -q -ot Byte -scale 0 10000 15 255  $line $line.full.png 2>/dev/null
+  # full_path="$tiff_path".png
+  # gdal_translate -q -ot Byte -scale 0 10000 15 255  $tiff_path $full_path 2>/dev/null
   # echo "Converted $line.png"
 
 done
