@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Postprocess ARD Pipeline H5 results
 # Extract reflectance products & convert to images
 # TODO: assumes single H5 for now
