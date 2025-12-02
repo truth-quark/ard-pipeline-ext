@@ -1,8 +1,17 @@
 #!/bin/bash
 
 # Postprocess ARD Pipeline H5 results
-# Extract reflectance products & convert to images
-# TODO: assumes single H5 for now
+# Extracts reflectance products from wagl/ARD pipeline HDF5 files &
+# converts to images for previewing.
+
+# USAGE:
+# $ reflectance_post.sh <batch-directory>
+# or
+# $ bash reflectance_post.sh <batch-directory>
+
+
+# LIMITATIONS:
+# TODO: script assumes single H5 files exist for now
 
 # Missing features:
 # TODO: check 0-10,000 range assumption for reflectance products
