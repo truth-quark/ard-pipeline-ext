@@ -27,8 +27,27 @@ if ! command -v gdal_translate &> /dev/null; then
     exit -2
 fi
 
-# TODO: update to find in a pipeline batch dir
-h5_path=$(find . -iname "*.wagl.h5")
+BATCH_DIR=$1
+
+if [ -z $BATCH_DIR ]; then
+  echo "ERROR: Specify a batch dir for the reflectance post processing script"
+  exit -4
+fi
+
+if [ ! -e $BATCH_DIR ]; then
+  echo "ERROR: $BATCH_DIR does not exist"
+  exit -3
+fi
+
+# Search batch dir for wagl/ARD pipeline output
+h5_path=$(find $BATCH_DIR -iname "*.wagl.h5")
+
+if [ ! -e $h5_path ]; then
+  # 'find' won't detect intermediate files
+  echo 'ERROR: <granule-ID>.wagl.h5 found. Did the pipeline run fail?'
+  exit 10
+fi
+
 h5_ls_path=$h5_path.ls.txt
 
 if [ ! -e $h5_ls_path ]; then
