@@ -64,7 +64,14 @@ if [ -z "$granule" ]; then
   exit -1
 fi
 
-echo Granule ID: "$granule"
+
+# Display header for logging
+# Defer to here to prioritise fail fast for simple errors
+echo 'ARD Pipeline: Reflectance Product Extraction'
+echo "$(date)"
+echo "Batch: $BATCH_DIR"
+echo "Granule ID: $granule"
+echo
 
 resize_percent=25
 
