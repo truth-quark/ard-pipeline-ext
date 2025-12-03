@@ -66,12 +66,24 @@ fi
 
 echo Granule ID: "$granule"
 
-# Extracts H5 data tree to current dir, rooted in another <granule-id> dir
-# Find H5 group paths for all reflectance products
+# Find paths for all H5 reflectance product datasets
 egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path | while read -r band_group; do
 
-  if [ ! -e ./$band_group.tif ]; then
-    wagl_convert --filename $h5_path  --pathname $band_group  --outdir . && echo "Extracted $band_group"
+  # Prep TIFF output path. No dir separator as 'band_group' has a leading slash
+  TIFF_PATH="$BATCH_DIR$band_group.tif"
+
+  product=$(echo  $band_group | egrep -o "\b(LAMBERTIAN|NBAR|NBART)\b")
+
+  if [ ! -e $TIFF_PATH ]; then
+    # Extract H5 dataset to BATCH_DIR, avoids creating deep directory trees
+    # echo "Output: $TIFF_PATH (product: $product)"
+    wagl_convert --filename $h5_path \
+                 --pathname $band_group \
+                 --outdir $BATCH_DIR && echo "Extracted $TIFF_PATH (product: $product)"
+
+    # TODO: rename output files with $product for clarity
+  else
+    echo "$TIFF_PATH exists, skipped"
   fi
 done
 
