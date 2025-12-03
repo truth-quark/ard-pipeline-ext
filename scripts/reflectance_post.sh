@@ -66,6 +66,8 @@ fi
 
 echo Granule ID: "$granule"
 
+resize_percent=25
+
 # Find paths for all H5 reflectance product datasets
 egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path | while read -r band_group; do
 
@@ -84,23 +86,22 @@ egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path
   else
     echo "$TIFF_PATH exists, extraction skipped"
   fi
-done
 
-echo "Converting reflectance product TIFFs to PNGs"
+  # Display data Min/Max for each TIFF
+  # TODO: add error checking (need to split the values for a 0/1 - 10,000 check
+  gdalinfo -mm $TIFF_PATH | egrep -o "Min\/Max=[0-9]+[.][0-9]+,[0-9]+[.][0-9]+"
 
-resize_percent=25
-
-find ./$granule -iname "*.tif" | while read -r tiff_path; do
-  # Extract a resized preview image
-  # Scale grey from 15-255 to allow 0/black for NODATA & avoid dark images
-  resized_path="$tiff_path.$resize_percent"_percent.png
+  # Resize TIFF to a preview image for easy viewing
+  # Scale grey to 15-255 to allow 0/black for NODATA & avoid dark images
+  resized_path="$TIFF_PATH.$resize_percent"_percent.png
 
   gdal_translate -q \
                  -ot Byte \
                  -outsize $resize_percent% $resize_percent% \
                  -scale 0 10000 15 255 \
                  -a_nodata 0 \
-                 $tiff_path  $resized_path && echo "Converted $resized_path"
+                 $TIFF_PATH  $resized_path && echo "Converted: $resized_path"
+  echo
 
   # full_path="$tiff_path".png
   # gdal_translate -q -ot Byte -scale 0 10000 15 255  $tiff_path $full_path
