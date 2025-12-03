@@ -75,15 +75,14 @@ egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path
   product=$(echo  $band_group | egrep -o "\b(LAMBERTIAN|NBAR|NBART)\b")
 
   if [ ! -e $TIFF_PATH ]; then
-    # Extract H5 dataset to BATCH_DIR, avoids creating deep directory trees
-    # echo "Output: $TIFF_PATH (product: $product)"
+    # Extract H5 dataset to BATCH_DIR, avoid creating deep directory trees
     wagl_convert --filename $h5_path \
                  --pathname $band_group \
-                 --outdir $BATCH_DIR && echo "Extracted $TIFF_PATH (product: $product)"
+                 --outdir $BATCH_DIR && echo "Extracted: $TIFF_PATH (product: $product)"
 
     # TODO: rename output files with $product for clarity
   else
-    echo "$TIFF_PATH exists, skipped"
+    echo "$TIFF_PATH exists, extraction skipped"
   fi
 done
 
