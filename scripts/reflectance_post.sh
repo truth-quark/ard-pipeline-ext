@@ -48,14 +48,15 @@ if [ ! -e $h5_path ]; then
   exit 10
 fi
 
+# Extract H5 file index to text
 h5_ls_path=$h5_path.ls.txt
 
 if [ ! -e $h5_ls_path ]; then
-  echo "Extracting $h5_path contents list"
+  echo "Extracting $h5_path contents list to $h5_ls_path"
   wagl_ls --filename $h5_path > $h5_ls_path
 fi
 
-# Read root group as it is the graunle ID
+# Read root group to extract granule ID
 granule=$(head -n 1 $h5_ls_path  | egrep -o L[0-9A-Z]+)
 
 if [ -z "$granule" ]; then
@@ -65,8 +66,8 @@ fi
 
 echo Granule ID: "$granule"
 
-# Find H5 group paths to all reflectance products
 # Extracts H5 data tree to current dir, rooted in another <granule-id> dir
+# Find H5 group paths for all reflectance products
 egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path | while read -r band_group; do
 
   if [ ! -e ./$band_group.tif ]; then
