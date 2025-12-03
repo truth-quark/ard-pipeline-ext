@@ -105,7 +105,7 @@ egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path
   gdal_translate -q \
                  -ot Byte \
                  -outsize $resize_percent% $resize_percent% \
-                 -scale 0 10000 15 255 \
+                 -scale 1 10000 15 255 \
                  -a_nodata 0 \
                  $TIFF_PATH  $resized_path && echo "Converted: $resized_path"
   echo
