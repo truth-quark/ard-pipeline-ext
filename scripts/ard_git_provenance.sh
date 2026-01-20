@@ -50,9 +50,9 @@ git_br=$(git -C $repo_path branch --show-current)
 provenance_path="$DEST/$TIMESTAMP-provenance.json"
 
 echo "{" > $provenance_path
-echo "  'job_date': '$TIMESTAMP'" >> $provenance_path
-echo "  'repo_path': '$repo_path'" >> $provenance_path
-echo "  'git_head': '$git_head'," >> $provenance_path
-echo "  'git_branch': '$git_br'," >> $provenance_path
-echo "  'git_status': '$git_st'" >> $provenance_path
+echo "  \"job_date\": \"$TIMESTAMP\"," >> $provenance_path
+echo "  \"repo_path\": \"$repo_path\"," >> $provenance_path
+echo "  \"git_head\": \"$git_head\"," >> $provenance_path
+echo "  \"git_branch\": \"$git_br\"," >> $provenance_path
+echo "  \"git_status\": \"$git_st\"" >> $provenance_path
 echo "}" >> $provenance_path
