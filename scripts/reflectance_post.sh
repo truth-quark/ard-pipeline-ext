@@ -44,12 +44,14 @@ fi
 h5_path=$(find $BATCH_DIR -iname "*.wagl.h5")
 
 if [ ! -e $h5_path ]; then
-  # 'find' won't detect intermediate files
+  # 'find' won't detect intermediate ARD H5 files as the
+  # path has a suffix indicating temporary file status
   echo 'ERROR: <granule-ID>.wagl.h5 found. Did the pipeline run fail?'
   exit 10
 fi
 
-# Extract H5 file index to text
+# Extract H5 index to text file, listing all contained
+# elements for data search & extraction
 h5_ls_path=$h5_path.ls.txt
 
 if [ ! -e $h5_ls_path ]; then
@@ -85,7 +87,10 @@ egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path
   product=$(echo  $band_group | egrep -o "\b(LAMBERTIAN|NBAR|NBART)\b")
 
   if [ ! -e $TIFF_PATH ]; then
-    # Extract H5 dataset to BATCH_DIR, avoid creating deep directory trees
+    # `wagl_convert` creates a dir structure matching the H5 dataset path
+    # Extract H5 datasets to BATCH_DIR to avoid deep directory trees, which
+    # occurs when extracting in the source H5 dir. An example extraction path is:
+    # $BATCH_DIR/LC81241092024346LGN00/RES-GROUP-0/STANDARDISED-PRODUCTS/REFLECTANCE/NBAR/BAND-8.tif
     wagl_convert --filename $h5_path \
                  --pathname $band_group \
                  --outdir $BATCH_DIR && echo "Extracted: $TIFF_PATH (product: $product)"
