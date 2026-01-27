@@ -31,7 +31,7 @@ fi
 BATCH_DIR=$1
 
 if [ -z $BATCH_DIR ]; then
-  echo "ERROR: Specify a batch dir for the reflectance post processing script"
+  echo "ERROR: Specify a batch dir for ARD surface reflectance post processing output"
   exit -4
 fi
 
@@ -93,6 +93,7 @@ egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path
     # TODO: rename output files with $product for clarity
   else
     echo "$TIFF_PATH exists, extraction skipped"
+    echo 'Delete or move the file (or extraction dir) to override this'
   fi
 
   # Display data Min/Max for each TIFF
