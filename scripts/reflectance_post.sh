@@ -117,8 +117,4 @@ egrep -o "^/L.+/REFLECTANCE/(LAMBERTIAN|NBAR|NBART)/BAND-[0-9]{1,2}" $h5_ls_path
                  $TIFF_PATH  $resized_path && echo "Converted: $resized_path"
   echo
 
-  # full_path="$tiff_path".png
-  # gdal_translate -q -ot Byte -scale 0 10000 15 255  $tiff_path $full_path
-  # echo "Converted full_path"
-
 done
