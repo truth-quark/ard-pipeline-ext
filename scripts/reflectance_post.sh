@@ -16,9 +16,10 @@
 # Missing features:
 # TODO: check 0-10,000 range assumption for reflectance products
 # TODO: add Lambertian, NBAR/T naming to output files
-# TODO: extract full size images from reflectance products?
+# TODO: extract full size _PNG_ images from reflectance products?
 # TODO: correct extracted path extensions?  e.g.  BAND-1.tiff to BAND-1.png
 #       leaving the `tif` original prefix hints at the PNG source
+# TODO: add override for pre existing files or mv/delete outputs?
 
 
 # Runtime environment checks
