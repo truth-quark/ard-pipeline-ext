@@ -20,7 +20,7 @@ from wagl import merra2
 from wagl.acquisition import acquisitions
 
 
-def main(acq_path):
+def main(acq_path, outdir="./converted"):
     container = acquisitions(acq_path)
     acq = container.get_highest_resolution()[0][0]
     assert acq.acquisition_datetime
@@ -34,8 +34,31 @@ def main(acq_path):
         acq.acquisition_datetime
     )
 
-    # TODO: start with the single paths
+    # generate ncks commands for ERA5 data
+    # TODO: de-duplicate the ncks command string
+    timestep_index = hour_index(acq.acquisition_datetime)
+
+    for var, path in zip(ERA5_SINGLE_LEVEL_VARIABLES, single_paths):
+        output_path = era5.build_era5_path(outdir, var, acq.acquisition_datetime, True)
+
+        # subset time steps either side of the acquisition time
+        cmd = f"ncks -d time,{timestep_index},{timestep_index+1} {path} {output_path}"
+        print(cmd)
+
+    for var, path in zip(ERA5_PRESSURE_LEVELS_VARIABLES, pressure_paths):
+        output_path = era5.build_era5_path(outdir, var, acq.acquisition_datetime, False)
+        cmd = f"ncks -d time,{timestep_index},{timestep_index+1} {path} {output_path}"
+        print(cmd)
+
+
     raise NotImplementedError("Remove when ERA5 done")
+
+
+def hour_index(_datetime):
+    day = _datetime.day
+    hour = _datetime.hour
+    index = ((day - 1) * 24) + hour
+    return index
 
 
 if __name__ == "__main__":
