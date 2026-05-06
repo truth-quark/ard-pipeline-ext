@@ -36,7 +36,7 @@ def main(acq_path):
         single=True
     )
 
-    merra2_base_dir = os.environ["MERRA2_BASE_DIR"]
+    merra2_base_dir = os.environ["MERRA2_DATA_DIR"]
     merra2_path = merra2.build_merra2_path(
         merra2_base_dir, acq.acquisition_datetime
     )
