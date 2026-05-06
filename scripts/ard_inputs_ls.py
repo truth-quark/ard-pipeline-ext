@@ -57,7 +57,7 @@ def main(acq_path):
         print(f"{v}: {p}")
 
     print("\nOzone path")
-    print(era5_ozone_path
+    print(era5_ozone_path)
 
     # MERRA2 paths (deals with aerosols)
     print("\n\nMERRA2 data")
