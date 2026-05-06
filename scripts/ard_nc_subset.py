@@ -7,8 +7,9 @@ Quick & dirty tool to subset ARD ancillary files required for ARD processing.
 # TODO: cut down the data to the minimum viable time slice to enable small data
 #       subsets for testing.
 
-# ERA5 SINGLE_LEVEL_VARIABLES = ("2t", "z", "sp", "2d")
-# ERA5_SINGLE_LEVEL_NC_VARIABLES = ("t2m", "z", "sp", "d2m")
+
+ERA5_SINGLE_LEVEL_VARIABLES = ("2t", "z", "sp", "2d")
+ERA5_PRESSURE_LEVELS_VARIABLES = ("r", "t", "z")
 
 
 import os
