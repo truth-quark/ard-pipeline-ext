@@ -8,7 +8,7 @@ Quick & dirty tool to subset ARD ancillary files required for ARD processing.
 #       subsets for testing.
 
 
-ERA5_SINGLE_LEVEL_VARIABLES = ("2t", "z", "sp", "2d")
+ERA5_SINGLE_LEVEL_VARIABLES = ("2t", "z", "sp", "2d", "tco3")
 ERA5_PRESSURE_LEVELS_VARIABLES = ("r", "t", "z")
 
 
@@ -30,8 +30,8 @@ def main(acq_path, outdir="./converted"):
 
     pressure_paths, single_paths = era5.build_all_era5_paths(
         era5_base_dir,
-        era5.ERA5_PRESSURE_LEVELS_VARIABLES,
-        era5.ERA5_SINGLE_LEVEL_VARIABLES,
+        ERA5_PRESSURE_LEVELS_VARIABLES,
+        ERA5_SINGLE_LEVEL_VARIABLES,
         acq.acquisition_datetime
     )
 
