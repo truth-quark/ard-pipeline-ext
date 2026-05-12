@@ -4,7 +4,9 @@
 **/*.egg-info/
 *.tif
 *.xml
-*.pyc# pixi environments
+*.pyc
+
+# pixi environments
 .pixi/*
 !.pixi/config.toml
 *~
